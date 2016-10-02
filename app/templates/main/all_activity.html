@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block title %} All activity {% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>All activity</h1>
+    </div>
+
+
+<div>
+ <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><span class="label label-primary">起点</span></th>
+                <th><span class="label label-primary">终点</span></th>
+                <th><span class="label label-danger">发车时间</span></th>
+                <th><span class="label label-warning">人数</span></th>
+
+                <th><span class="label label-info">发布时间</span></th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for activity in activities %}
+
+                <tr>
+                    <td>{{ activity.start_location.name }}</td>
+                    <td>{{ activity.end_location.name }}</td>
+                    <td>{{ moment(activity.start_time).fromNow(refresh=True)}}</td>
+                    <td>{{ activity.users.count() }}/{{ activity.max_people_amount }}</td>
+
+                    <td>{{ moment(activity.timestamp).fromNow(refresh=True)}}</td>
+                    <td><a class="btn btn-link" href="{{ url_for('main.activity', id=activity.id) }}"
+                           role="button">查看更多>></a></td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+</div>
+
+
+
+{% endblock %}
+

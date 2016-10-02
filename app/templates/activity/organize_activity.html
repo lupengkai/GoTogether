@@ -1,0 +1,28 @@
+{% extends 'admin/master.html' %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+<script type="text/javascript">
+
+        {{ pagedown.include_pagedown() }}
+</script>
+
+
+
+{% block body %}
+
+
+    <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+
+    </div>
+
+
+
+{% endblock %}
+
+
+
+
+

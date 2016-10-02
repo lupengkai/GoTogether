@@ -1,0 +1,36 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+
+<div>
+
+
+ <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><span class="label label-primary">name</span></th>
+
+             <th><span class="label label-danger">operation</span> </th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for application in all_applications %}
+
+                <tr>
+                    <td>{{ application.name }}</td>
+                    {% if not Application.query.filter_by(name=application.name).first() %}
+                    <td><a href="{{ url_for('location_application.approve',application_id=application.id) }}">approve</a></td>
+                    {% endif %}
+
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+</div>
+{% endblock %}

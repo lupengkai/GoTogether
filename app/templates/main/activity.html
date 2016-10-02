@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+
+
+
+
+{% block title %}Activity - Detail{% endblock %}
+{% block page_content %}
+
+
+
+    <div class="page-header">
+        <h1>activity</h1>
+
+
+    </div>
+
+
+
+
+
+    <div class="myDiv">
+        <div class="detail">
+            <p><strong>起点：</strong>{{ activity.start_location.name }}</p>
+            <p><strong>终点：</strong>{{ activity.end_location.name }}</p>
+            <p><strong>出发时间：</strong>{{ moment(activity.start_time).format('LLL') }}</p>
+            <p><strong>当前人数：</strong>{{ activity.users.count() }}</p>
+            <p><strong>期望人数：</strong>{{ activity.max_people_amount }}</p>
+            <p><strong>Contact phone：</strong>{{ activity.contact_phone }}</p>
+            <p><strong>发布时间：</strong>{{ moment(activity.timestamp).format('LLL') }}</p>
+
+        </div>
+        <div class="myBtn">
+
+            {% if not current_user in activity.users %}
+                {% if activity.users.count()< activity.max_people_amount %}
+
+                    <a href="{{ url_for('main.participate', activity_id=activity.id) }}">
+                        <button type="button" class="btn btn-primary">Join</button>
+                    </a>
+                {% endif %}
+
+
+
+
+
+            {% else %}
+
+                <a href="{{ url_for('main.leave', activity_id = activity.id) }}">
+                    <button type="button" class="btn btn-danger">退出</button>
+                </a>
+
+            {% endif %}
+
+
+        </div>
+    </div>
+
+
+
+    <p>
+    <h4>备注：</h4>
+    {% if activity.description_html %}
+        {{ activity.description_html | safe }}
+    {% else %}
+        {{ activity.description }}
+    {% endif %}
+    </p>
+    <hr>
+
+
+    <div>
+
+
+        <strong>Member：</strong>
+        {% for user in activity.users %}
+
+            <a href="{{ url_for('.user', username=user.username) }}">
+                <img class="img-thumbnail" src="{{ user.gravatar(size=40) }}">
+                {% if current_user in activity.users %}
+                    {{ user.username }}
+                    {{ user.phone }}
+                    {{ user.qq }}
+                {% endif %}
+            </a>
+
+        {% endfor %}
+
+    </div>
+
+    <hr>
+
+
+
+
+
+{% endblock %}
+
